@@ -3,31 +3,24 @@ variable "env" {
   description = "Application environment (prod, stage, test, or dev)"
 }
 
-variable "location" {
-  type        = string
-  description = "Azure Location"
-  default     = "westeurope"
-}
-
 variable "worker_count" {
   type        = number
   description = "Number of workers"
   default     = 1
 }
 
-resource "azurerm_resource_group" "this" {
-  name     = "hello-jt-${var.env}"
-  location = var.location
+module "rg" {
+  source = "../rg"
+  name   = "hello-jt-${var.env}"
 }
 
 resource "azurerm_service_plan" "this" {
   name                = "hello-jt-${var.env}"
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
+  resource_group_name = module.rg.name
+  location            = module.rg.location
   os_type             = "Linux"
   sku_name            = "P1v2"
 }
-
 
 module "app" {
   source = "../app"
