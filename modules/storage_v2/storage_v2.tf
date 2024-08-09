@@ -1,7 +1,9 @@
 variable "config" {
   description = "Details of the storage accounts and their containers"
   type = object({
-    name                     = string
+    # name: The name of storage account.
+    name = string
+    # resource_group_name: name of resource group.
     resource_group_name      = string
     location                 = string
     account_replication_type = optional(string, "LRS")

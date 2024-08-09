@@ -25,7 +25,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_config"></a> [config](#input\_config) | Details of the storage accounts and their containers | <pre>object({<br>    name                     = string<br>    resource_group_name      = string<br>    location                 = string<br>    account_replication_type = optional(string, "LRS")<br>    containers               = optional(list(string))<br>  })</pre> | n/a | yes |
+| <a name="input_config"></a> [config](#input\_config) | Details of the storage accounts and their containers | <pre>object({<br>    # name: The name of storage account.<br>    name = string<br>    # resource_group_name: name of resource group.<br>    resource_group_name      = string<br>    location                 = string<br>    account_replication_type = optional(string, "LRS")<br>    containers               = optional(list(string))<br>  })</pre> | n/a | yes |
 
 ## Outputs
 
