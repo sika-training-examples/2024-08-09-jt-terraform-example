@@ -27,3 +27,11 @@ resource "azurerm_subnet" "this" {
   virtual_network_name = azurerm_virtual_network.this.name
   address_prefixes     = [var.config.subnets[count.index]]
 }
+
+output "virtual_network_id" {
+  value = azurerm_virtual_network.this.id
+}
+
+output "subnet_ids" {
+  value = azurerm_subnet.this[*].id
+}
