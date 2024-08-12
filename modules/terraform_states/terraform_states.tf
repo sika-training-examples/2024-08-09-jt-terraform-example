@@ -8,6 +8,11 @@ variable "rg_prefix" {
   description = "Prefix of RG name"
 }
 
+variable "account_replication_type" {
+  type        = string
+  description = "The replication type of the storage account"
+  default     = "LRS"
+}
 
 resource "azurerm_resource_group" "this" {
   name     = "${var.rg_prefix}-${var.name}"
@@ -17,8 +22,9 @@ resource "azurerm_resource_group" "this" {
 module "this" {
   source = "../storage"
 
-  name                = var.name
-  resource_group_name = azurerm_resource_group.this.name
-  location            = azurerm_resource_group.this.location
-  containers          = ["terraform-states"]
+  name                     = var.name
+  resource_group_name      = azurerm_resource_group.this.name
+  location                 = azurerm_resource_group.this.location
+  account_replication_type = var.account_replication_type
+  containers               = ["terraform-states"]
 }
