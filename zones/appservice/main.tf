@@ -1,13 +1,28 @@
+data "azurerm_key_vault" "kv" {
+  name                = "osdemojtkv999"
+  resource_group_name = "kv"
+}
+
 module "hello_jt_dev" {
   source = "../../modules/hello_jt"
 
-  env = "dev"
+  env          = "dev"
+  key_vault_id = data.azurerm_key_vault.kv.id
 }
 
 module "hello_jt_test" {
   source = "../../modules/hello_jt"
 
-  env = "test"
+  env          = "test"
+  key_vault_id = data.azurerm_key_vault.kv.id
+}
+
+
+module "hello_jt_xxx" {
+  source = "../../modules/hello_jt"
+
+  env          = "xxx"
+  key_vault_id = data.azurerm_key_vault.kv.id
 }
 
 ///////////////////////////

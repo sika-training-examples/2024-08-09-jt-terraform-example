@@ -9,6 +9,11 @@ variable "worker_count" {
   default     = 1
 }
 
+variable "key_vault_id" {
+  type        = string
+  description = "Key Vault ID"
+}
+
 module "rg" {
   source = "../rg"
   name   = "hello-jt-${var.env}"
@@ -34,8 +39,20 @@ module "app" {
     docker_registry_url = "https://index.docker.io"
     worker_count        = var.worker_count
     env = {
-      PORT = "80"
-      TEXT = "Hello J&T (${var.env})"
+      PORT    = "80"
+      TEXT    = "Hello J&T (${var.env})"
+      "COLOR" = "@Microsoft.KeyVault(VaultName=osdemojtkv999;SecretName=COLOR)"
     }
   }
+}
+
+resource "azurerm_key_vault_access_policy" "this" {
+  key_vault_id       = var.key_vault_id
+  tenant_id          = module.app.tenant_id
+  object_id          = module.app.principal_id
+  secret_permissions = ["Get"]
+}
+
+output "app" {
+  value = module.app
 }
