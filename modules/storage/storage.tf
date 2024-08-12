@@ -19,12 +19,18 @@ variable "containers" {
   description = "The list of containers to create in the storage account"
 }
 
+variable "account_replication_type" {
+  type        = string
+  description = "The replication type of the storage account"
+  default     = "LRS"
+}
+
 resource "azurerm_storage_account" "this" {
   name                     = var.name
   resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
-  account_replication_type = "LRS"
+  account_replication_type = var.account_replication_type
 }
 
 resource "azurerm_storage_container" "this" {
