@@ -10,6 +10,7 @@ variable "event_hub_namespace" {
       partition_count   = number
       message_retention = number
     }))
+    receiver_principal_ids = optional(list(string), [])
   })
 }
 

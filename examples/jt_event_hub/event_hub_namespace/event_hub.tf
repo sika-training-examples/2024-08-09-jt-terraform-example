@@ -18,3 +18,11 @@ resource "azurerm_eventhub" "this" {
   partition_count     = each.value.partition_count
   message_retention   = each.value.message_retention
 }
+
+resource "azurerm_role_assignment" "eventhubnames_namespace" {
+  for_each = toset(var.event_hub_namespace.receiver_principal_ids)
+
+  role_definition_name = "Azure Event Hubs Data Receiver"
+  scope                = azurerm_eventhub_namespace.this.id
+  principal_id         = each.key
+}
